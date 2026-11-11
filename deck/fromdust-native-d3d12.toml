@@ -1,0 +1,46 @@
+# From Dust (ReXGlue port) with the native D3D12 renderer (src/native, adapted from PGR4Native),
+# under Proton on the Steam Deck. Read from beside fromdust.exe at every start; a command line
+# flag (`--name=value`) overrides a setting for that session.
+
+# Window: the Deck's 1280x800 panel, full screen; the game's 16:9 picture with bars above and
+# below. The video mode the game is told about stays the console's 1280x720 (without it the
+# window's 1280x800 would be reported and the picture stretched).
+window_width = 1280
+window_height = 800
+fullscreen = true
+resolution = "720p"
+
+# The native renderer draws and presents the game (no EDRAM emulation, each draw once); the
+# Xenos plugin only runs the GPU's fences and interrupts.
+gpu_plugin = "xenos"
+pgr4_native_primary = true
+# The game's occlusion queries all report visible (pgr4_native_occlusion, off by default): From
+# Dust reuses its queries for other objects every frame, so a host count, which comes a frame
+# late, belonged to another object and hid visible ones for a frame (src/native/renderer.cpp).
+
+# Picture: the game's 1024x600 shown at 16:9 (as the console's scaler does) and scaled up with
+# AMD FSR 1, EASU then RCAS sharpening (sharpness reduction in stops: 0 sharpest, 2 soft).
+pgr4_native_display_aspect = 1.7777778
+pgr4_native_fsr = true
+pgr4_native_fsr_sharpness = 0.2
+
+# The settings menu: F1, or Back+Start on the pad (src/fromdust_settings.cpp). Its changes are
+# saved here.
+
+# Textures: 16x anisotropic filtering (the terrain is seen at grazing angles). The native
+# renderer's own setting; anisotropic_override is the Xenos plugin's (Classic renderer).
+pgr4_native_anisotropy = 16
+anisotropic_override = 5
+
+# 60 FPS with the world at the console's 30 steps a second (src/frame_rate.cpp).
+video_mode_refresh_rate = 120
+fromdust_world_hz = 30
+fromdust_fps_limit = 60
+fromdust_even_pacing = false
+
+license_mask = 1
+
+# Pacing and wake-ups from PGR4Native's SDK patches.
+gpu_vblank_deadline_timer = true
+gpu_wait_reg_mem_high_res = true
+gpu_ring_wake_fast = true

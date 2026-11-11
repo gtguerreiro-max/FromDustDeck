@@ -1,0 +1,55 @@
+# From Dust (ReXGlue port) settings for the Steam Deck. Read from beside fromdust.exe at every
+# start. A flag on the command line (Steam launch options: `%command% --name=value`) overrides
+# the same setting for that session.
+
+# Window: the Deck's 1280x800 panel, full screen. The game renders 16:9 and is letterboxed.
+window_width = 1280
+window_height = 800
+fullscreen = true
+
+# The game's frames, scaled to the panel with AMD FSR 1 (edge-adaptive upscaling plus
+# sharpening) instead of plain bilinear. "cas" sharpens only; "bilinear" is the cheapest.
+present_effect = "fsr"
+present_fsr_sharpness_reduction = 0.2
+
+# Internal resolution: 1 is the console's. 2 doubles each axis (much sharper terrain and water
+# edges) and costs about 4x the pixel work; on the Deck keep 1, and try 2 docked or on a PC.
+draw_resolution_scale_x = 1
+draw_resolution_scale_y = 1
+
+# 16x anisotropic filtering on the game's textures (the terrain is seen at grazing angles).
+# Cheap on the Deck's RDNA 2 GPU. Xenos levels: 0 off, 1 1x, 2 2x, 3 4x, 4 8x, 5 16x; -1 keeps
+# the game's own filtering.
+anisotropic_override = 5
+
+# Present in step with the display.
+vsync = true
+
+# Frame rate above the console's 30 FPS (src/frame_rate.cpp). The game presents every second
+# guest vblank, so a 120 Hz vblank lets it run up to 60 FPS. The world (water, lava, plants,
+# people) keeps its 30 steps per second, and even pacing holds 60 FPS, or 30 when the frames
+# can't keep up, so each world step stays on screen evenly. Don't use the Deck's 40 FPS limit:
+# 40 doesn't divide the world's 30 steps, so the water would move in small jerks. 0 for
+# fromdust_world_hz steps the world once per frame, as the console does (faster above 30 FPS).
+video_mode_refresh_rate = 120
+fromdust_world_hz = 30
+fromdust_fps_limit = 60
+fromdust_even_pacing = true
+
+# The full game's license (XBLA titles check it; with 0 the game runs as its trial, with
+# "Unlock full game" in the menu).
+license_mask = 1
+
+# GPU emulation: the Xenos plugin (rexgpu-xenos.dll).
+gpu_plugin = "xenos"
+
+# Pacing and wake-ups from PGR4Native's SDK patches, which were measured on a Deck: present on
+# the display's vblank, sleep the vblank thread to a deadline instead of spinning, wake sub-ms
+# register waits precisely, and wake the command processor as soon as the ring is written.
+d3d12_present_vsync = true
+gpu_vblank_deadline_timer = true
+gpu_wait_reg_mem_high_res = true
+gpu_ring_wake_fast = true
+
+# Shader pipelines are compiled on worker threads (-1: as many as the CPU has, minus one).
+d3d12_pipeline_creation_threads = -1

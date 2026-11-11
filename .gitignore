@@ -1,0 +1,10 @@
+build/
+generated/
+game-data
+codegen.log
+build-*.out
+*.profraw
+build-upstream/
+*.out
+deck/art/*.png
+deck/art/*.jpg

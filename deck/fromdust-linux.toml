@@ -1,0 +1,71 @@
+# From Dust (ReXGlue port, native Linux build: Vulkan, no Proton) settings for the Steam Deck. Read from beside fromdust.exe at every
+# start. A flag on the command line (Steam launch options: `%command% --name=value`) overrides
+# the same setting for that session.
+
+# Window: the Deck's 1280x800 panel, full screen. The game renders 16:9 and is letterboxed.
+window_width = 1280
+window_height = 800
+fullscreen = true
+# The video mode the game is told about: 1280x720 (16:9), the console's. Without it ReXGlue
+# reports the window's 1280x800 (16:10) and stretches the 16:9 picture over the whole panel;
+# with it the picture keeps 16:9 with bars above and below (present_letterbox). A preset is
+# needed: video_mode_width / height at 1280 x 720 equal their defaults, which ReXGlue ignores in
+# favour of the window size.
+resolution = "720p"
+
+# The game's frames, scaled to the panel with AMD FSR 1 (edge-adaptive upscaling plus
+# sharpening) instead of plain bilinear. "cas" sharpens only; "bilinear" is the cheapest.
+present_effect = "fsr"
+present_fsr_sharpness_reduction = 0.2
+
+# Internal resolution: 1 is the console's. 2 doubles each axis (much sharper terrain and water
+# edges) and costs about 4x the pixel work; on the Deck keep 1, and try 2 docked or on a PC.
+draw_resolution_scale_x = 1
+draw_resolution_scale_y = 1
+
+# 16x anisotropic filtering on the game's textures (the terrain is seen at grazing angles).
+# Cheap on the Deck's RDNA 2 GPU. Xenos levels: 0 off, 1 1x, 2 2x, 3 4x, 4 8x, 5 16x; -1 keeps
+# the game's own filtering.
+anisotropic_override = 5
+
+# Present in step with the display.
+vsync = true
+
+# Frame rate above the console's 30 FPS (src/frame_rate.cpp). The game presents every second
+# guest vblank, so a 120 Hz vblank lets it run up to 60 FPS. The world (water, lava, plants,
+# people) keeps its 30 steps per second, and even pacing holds 60 FPS, or 30 when the frames
+# can't keep up, so each world step stays on screen evenly. Don't use the Deck's 40 FPS limit:
+# 40 doesn't divide the world's 30 steps, so the water would move in small jerks. 0 for
+# fromdust_world_hz steps the world once per frame, as the console does (faster above 30 FPS).
+# Even pacing off on the Deck: its sleep fell out of step with the guest vblank there, and the
+# game presented only every second update (30 FPS with 60 updates a second, measured
+# 2026-11-10). The vblank alone holds 60 there (the game presents every second 120 Hz vblank),
+# and the world still steps every second frame (295 of 300 steps).
+video_mode_refresh_rate = 120
+fromdust_world_hz = 30
+fromdust_fps_limit = 60
+fromdust_even_pacing = false
+
+# The full game's license (XBLA titles check it; with 0 the game runs as its trial, with
+# "Unlock full game" in the menu).
+license_mask = 1
+
+# GPU emulation: the Xenos plugin (rexgpu-xenos.dll).
+gpu_plugin = "xenos"
+gpu_backend = "vulkan"
+
+# Host render targets ("fbo"): measured in the first level on the Deck (2026-11-10), 49.5 FPS
+# against 18 with "fsi" (fragment shader interlock, which emulates the EDRAM and the 2x MSAA per
+# sample in the pixel shader and keeps the Deck's GPU at 100%). The red / dark scene "fbo" drew
+# on this project's PC came from the Vulkan stencil transfer that GPUs without
+# VK_EXT_shader_stencil_export use (NVIDIA), fixed in patches/fromdust/0001 as in Xenia; the
+# Deck's RADV has the extension and drew the scene right even before the fix.
+render_target_path_vulkan = "fbo"
+
+# Pacing and wake-ups from PGR4Native's SDK patches, which were measured on a Deck: sleep the
+# vblank thread to a deadline instead of spinning, wake sub-ms register waits precisely, and wake
+# the command processor as soon as the ring is written.
+gpu_vblank_deadline_timer = true
+gpu_wait_reg_mem_high_res = true
+gpu_ring_wake_fast = true
+
