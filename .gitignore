@@ -8,3 +8,7 @@ build-upstream/
 *.out
 deck/art/*.png
 deck/art/*.jpg
+
+# ReXNative layer: the tool's report and full result (local paths); regenerate with python -m rexnative adapt.
+src/rexnative/layer.json
+src/rexnative/report.md

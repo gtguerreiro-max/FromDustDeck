@@ -17,7 +17,10 @@ are `patches/fromdust/`.
 
 ## Native renderer (D3D12, under Proton): the Deck's 60 FPS
 
-`src/native/` is PGR4Native's native D3D12 renderer, adapted to From Dust. It hooks the guest
+The renderer is [ReXNative](https://github.com/gtguerreiro-max/ReXNative): PGR4Native's native
+D3D12 renderer as this port adapted it, made game-neutral so the same sources run any ReXGlue
+game (`third_party/ReXNative`, a submodule; CMake takes a ReXNative checkout beside this one
+instead when the submodule is absent, cache `FROMDUST_REXNATIVE_DIR`). It hooks the guest
 D3D library's draw, clear, resolve, query and Swap calls in the recompiled code and draws them
 with host render targets, without emulating the EDRAM or the GPU's command stream, and each
 draw once instead of once per predicated tiling pass. The Xenos plugin stays in the binary for
@@ -27,12 +30,31 @@ in the first level, same scene as the Xenos/Vulkan path (33-49 FPS with the GPU 
 1591 MHz): 60 FPS with the GPU 68 % busy at 839 MHz, 2.6 W of GFX power, every world step on
 screen for 2 frames.
 
-What From Dust needed (the renderer's options keep PGR4Native's `pgr4_native_*` names):
+**From Dust's layer.** Everything the renderer knows about From Dust is in `src/rexnative/`:
+`game_layer.h` (the D3D function addresses, the device's field offsets, where Resolve's
+arguments are, its default clear colour, the scene surface, option defaults) and
+`d3d_surface.inc` (the hooked functions). ReXNative's tool writes both from the generated code
+and `Default.xex`, matching them against the other ports it knows; from a ReXNative checkout:
+
+    python -m rexnative adapt --generated <FromDustDeck>/generated/default --xex <FromDustDeck>/game-data/Default.xex --name fromdust --title "From Dust" --out <FromDustDeck>/src/rexnative
+
+It reads `src/rexnative/overrides.json` first, the choices kept by hand: PGR4's second restore
+of a push-buffer segment (`RestoreSegment`) is inlined in From Dust, so it is the same function
+as `RestoreSegment13392` (`820D65A8`); and the scene surface and option defaults are the ones the
+port ran with. The real scene is 1024x600, pitch 1040, 2x MSAA (`rexnative scene` on a resolve
+dump), not in the layer yet: the upscaler (DLSS / FSR) stays off. The generated layer equals the
+hand-made one this port had, except the default Resolve clear colour, now From Dust's 16-byte
+vector at `0x82007F50` (it read PGR4's float at `0x82258A0C`). The old `src/native/`,
+`src/fromdust_d3d_trace.cpp`, `src/fromdust_settings.*` and `src/d3d_surface.inc` are in the
+git history. Checked on a PC on 2026-11-14 (menus, map, a level, the settings menu); not yet
+on the Deck with this build.
+
+What From Dust needed, now in ReXNative (the options keep PGR4Native's `pgr4_native_*` names):
 - **Addresses.** Both games link the same XDK D3D library at other addresses.
-  `tools/match_d3d.py` pairs PGR4's functions with From Dust's by instruction listing (exact,
-  then similarity, with the next best far behind), and `tools/retarget_pgr4.py` rewrites the
-  copied sources and `src/d3d_surface.inc` (108 functions; the setters From Dust's engine
-  inlines have no copy). Checked against the earlier XenonRecomp-based D3D12 port's call counts (Swap 820E0AC8,
+  `tools/match_d3d.py` paired PGR4's functions with From Dust's by instruction listing (exact,
+  then similarity, with the next best far behind), and `tools/retarget_pgr4.py` rewrote the
+  copied sources and the hook list (108 functions; the setters From Dust's engine inlines have
+  no copy). ReXNative's `rexnative adapt` does the same now, with more ways to match. Checked against the earlier XenonRecomp-based D3D12 port's call counts (Swap 820E0AC8,
   DrawIndexedVertices 8250DDA0, DrawVertices 8250D988, MakeSpace 820D7D88, GetData 820DE478).
   The public Resolve is `sub_820EE9D0`, a wrapper over the listing match `sub_820ED880` with two
   new arguments.
@@ -49,26 +71,32 @@ What From Dust needed (the renderer's options keep PGR4Native's `pgr4_native_*` 
   a frame (the background showed through: the "blue" flashes on the totem and the huts, 9 frames
   in 735). Every query now reports visible (`--pgr4_native_occlusion=false`, the default); the
   draws per frame are the same (1460 against 1464).
-- `src/native_glue.cpp`: the PGR4 game-side functions the renderer calls.
+- `src/native_glue.cpp` and `FromDustWorldStepped` (`src/frame_rate.cpp`): the game-side
+  functions the renderer calls (`rexnative_add(... NO_DEFAULT_GLUE)`).
 - **Picture.** The front buffer is the game's 1024x600, which the console's scaler shows at
   16:9: the present fits it at 16:9 (`--pgr4_native_display_aspect`, 1280x720 on the Deck's
   1280x800) and scales it up with AMD FSR 1 (`--pgr4_native_fsr`, EASU then RCAS,
-  `--pgr4_native_fsr_sharpness` in stops; `src/native/fsr.cpp`). FSR runs the pixel shaders
+  `--pgr4_native_fsr_sharpness` in stops; ReXNative's `renderer/src/native/fsr.cpp`). FSR runs
+  the pixel shaders
   ReXGlue's D3D12 presenter ships (Xenia's `guest_output_ffx_fsr_*`, prebuilt DXBC), on the
   image after the gamma ramp, as that presenter does. On the Deck it costs 6 points of GPU
   busy time (81 % at 942 MHz against bilinear's 75 % at 897 MHz, 3.0 W of GFX power against
   2.9 W), still 60 FPS.
-- **Settings menu** (`src/fromdust_settings.cpp`, after PGR4Native's in-game Options page): F1,
-  or Back+Start on the pad, opens it over the running game. D-pad up/down chooses, left/right
-  (or A) changes, B closes; mouse and touch work too. Antialiasing, upscaling, FSR sharpening,
-  frame rate, frame latency, texture filtering, occlusion queries and log level. A setting the
+- **Settings menu**: ReXNative's HUD (`renderer/src/hud/`, this port's menu made game-neutral,
+  after PGR4Native's in-game Options page), set up in `src/fromdust_app.h`, with the pad chord
+  from `src/frame_rate.cpp` (`FilterPad`). F1, or Back+Start on the pad, opens it over the
+  running game. D-pad up/down chooses, left/right (or A) changes, B closes; mouse and touch work
+  too. Antialiasing, screen scaling, FSR sharpening, frame rate, frame latency, texture
+  filtering, a DLSS page (upscaler, DLSS mode, DLSS 5 and its intensity), occlusion queries and
+  log level. A setting the
   renderer can change live applies at once, the others are marked * until the next start, and
   each is saved into `fromdust.toml` with its comments kept. The menu has an ImGui context of
   its own, used only on the UI thread (ReXGlue's ImGui is one context in `rexruntime.dll` that
-  its UI thread switches); the native present draws its triangles (`src/native/overlay.cpp`).
+  its UI thread switches); the native present draws its triangles
+  (`renderer/src/native/overlay.cpp`).
   The game sees a neutral pad while it is up, and a lone Back or Start reaches the game 120 ms
   late, in case it begins the chord. For the first 15 seconds a hint in the bottom-left
-  corner says how to open it (`--fromdust_settings_hint=false` hides it).
+  corner says how to open it (`--rexnative_hud_hint=false` hides it).
 
 `tools/compare_resolves.py` (from PGR4Native, with the 16-bit formats) compares the renderer's
 resolves with the Xenos plugin's (`--pgr4_native_resolve_dump`). The Deck runs the Windows build
@@ -101,7 +129,8 @@ from `~/Games/FromDustNativeD3D` with `deck/play-native-d3d12.sh` (GE-Proton) an
   `c36.x` on the title screen) is scaled by the frame's share of a world step. It uses a
   per-draw hook in the SDK, and the pass is found by the constants it reads. In play `c36.x`
   is a real-time phase (measured at the same speed at 30 and 60 FPS), so it is not touched.
-  The native renderer calls the same hook from its own draws (`src/native/draw.cpp`).
+  The native renderer calls the same hook from its own draws (ReXNative's
+  `renderer/src/native/draw.cpp`).
 
 ## Optimizations measured (Windows PC, first level from a save)
 
@@ -179,6 +208,8 @@ Start, Space = A) and window captures.
 | `tools/hints/` | Function starts that codegen does not find by itself, one file per module (made by `tools/gen_manifest.py --seed-old`) |
 | `patches/` | `rexglue.lock` (upstream commit), `deck/` (generic patches from PGR4Native), `fromdust/` (this port's SDK changes) |
 | `src/` | The app (`FromdustApp`, a `rex::ReXApp`) |
+| `src/rexnative/` | From Dust's layer for the native renderer: `game_layer.h`, `d3d_surface.inc` (generated by `rexnative adapt`) and `overrides.json` |
+| `third_party/ReXNative` | The native D3D12 renderer and its settings menu ([ReXNative](https://github.com/gtguerreiro-max/ReXNative), submodule) |
 | `deck/` | Deck settings (`fromdust.toml`) and the Proton launcher (`play.sh`) |
 | `scripts/build.ps1` | Build: SDK, codegen and game, install |
 | `game-data` | Junction to the extracted game (`the earlier D3D12 port\game`); not in git |

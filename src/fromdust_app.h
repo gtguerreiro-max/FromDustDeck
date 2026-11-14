@@ -8,7 +8,7 @@
 
 #include "crash_report.h"
 #if defined(FROMDUST_NATIVE_RENDERER)
-#include "fromdust_settings.h"
+#include "hud/hud.h"  // ReXNative's settings HUD
 #endif
 
 void InstallWaterFlowFix();  // water_flow.cpp
@@ -29,13 +29,13 @@ class FromdustApp : public rex::ReXApp {
   void OnPostSetup() override { StartGuestCaptures(runtime()); }
 
 #if defined(FROMDUST_NATIVE_RENDERER)
-  // The settings menu (F1 or Back+Start, fromdust_settings.h) writes the configuration file
+  // ReXNative's settings HUD (F1 or Back+Start, hud/hud.h) writes the configuration file
   // ReXGlue loads.
   void OnConfigurePaths(rex::PathConfig& paths) override {
-    fromdust::settings::SetConfigPath(paths.config_path);
+    rexnative::hud::SetConfigPath(paths.config_path);
   }
-  void OnCreateDialogs(rex::ui::ImGuiDrawer*) override { fromdust::settings::Initialize(window()); }
-  void OnShutdown() override { fromdust::settings::Shutdown(); }
+  void OnCreateDialogs(rex::ui::ImGuiDrawer*) override { rexnative::hud::Initialize(window()); }
+  void OnShutdown() override { rexnative::hud::Shutdown(); }
 #endif
 
   static std::unique_ptr<rex::ui::WindowedApp> Create(

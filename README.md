@@ -29,9 +29,10 @@ renderer instead of an emulated Xbox 360 GPU.
 
 - **60 FPS on the Steam Deck**, with the world (water, lava, vegetation, villagers) still at the
   original 30 steps a second, so nothing runs faster than on the console.
-- **Native D3D12 renderer** (adapted from [PGR4Native](https://github.com/shaunsingh/pgr4-native)):
-  no EDRAM emulation, each draw done once. On the Deck the GPU stays around 80 % at ~940 MHz
-  and ~3 W.
+- **Native D3D12 renderer**: [ReXNative](https://github.com/gtguerreiro-max/ReXNative), the
+  universal version of [PGR4Native](https://github.com/shaunsingh/pgr4-native)'s renderer that
+  this port started from: no EDRAM emulation, each draw done once. On the Deck the GPU stays
+  around 80 % at ~940 MHz and ~3 W.
 - **Picture:** the game's 1024x600 shown at the console's 16:9 and scaled with **AMD FSR 1**,
   16x anisotropic filtering, the console's 2x MSAA (or off, 4x, 8x).
 - **In-game settings menu** over the running game: **Back + Start** on the pad, or **F1**.
@@ -60,7 +61,7 @@ maintained; the Proton build is the one to use.
 ## Build
 
 ```powershell
-git clone https://github.com/gtguerreiro-max/FromDustDeck
+git clone --recurse-submodules https://github.com/gtguerreiro-max/FromDustDeck
 cd FromDustDeck
 # Put (or link) your extracted game in game-data\ so that game-data\Default.xex exists.
 scripts\build.ps1 -CopyGame
@@ -111,8 +112,10 @@ Every setting is also a line in `fromdust.toml`, and a Steam launch option such 
 
 - [ReXGlue SDK](https://github.com/rexglue/rexglue-sdk): the recompiler and runtime, built on
   [Xenia](https://github.com/xenia-project/xenia) (BSD 3-Clause).
-- [PGR4Native](https://github.com/shaunsingh/pgr4-native): the native D3D12 renderer and the
-  Steam Deck patches this port adapts.
+- [ReXNative](https://github.com/gtguerreiro-max/ReXNative): the native D3D12 renderer and its
+  settings menu (MIT), built from the `third_party/ReXNative` submodule.
+- [PGR4Native](https://github.com/shaunsingh/pgr4-native): where that renderer comes from, and
+  the Steam Deck patches this port adapts.
 - AMD FidelityFX FSR 1 (MIT), through Xenia's presenter shaders; Dear ImGui (MIT).
 - From Dust is © Ubisoft. This project is not affiliated with or endorsed by Ubisoft or
   Microsoft.

@@ -1,4 +1,4 @@
-# From Dust (ReXGlue port) with the native D3D12 renderer (src/native, adapted from PGR4Native),
+# From Dust (ReXGlue port) with the native D3D12 renderer (ReXNative, from PGR4Native's),
 # under Proton on the Steam Deck. Read from beside fromdust.exe at every start; a command line
 # flag (`--name=value`) overrides a setting for that session.
 
@@ -16,7 +16,7 @@ gpu_plugin = "xenos"
 pgr4_native_primary = true
 # The game's occlusion queries all report visible (pgr4_native_occlusion, off by default): From
 # Dust reuses its queries for other objects every frame, so a host count, which comes a frame
-# late, belonged to another object and hid visible ones for a frame (src/native/renderer.cpp).
+# late, belonged to another object and hid visible ones for a frame (ReXNative's renderer.cpp).
 
 # Picture: the game's 1024x600 shown at 16:9 (as the console's scaler does) and scaled up with
 # AMD FSR 1, EASU then RCAS sharpening (sharpness reduction in stops: 0 sharpest, 2 soft).
@@ -24,7 +24,7 @@ pgr4_native_display_aspect = 1.7777778
 pgr4_native_fsr = true
 pgr4_native_fsr_sharpness = 0.2
 
-# The settings menu: F1, or Back+Start on the pad (src/fromdust_settings.cpp). Its changes are
+# The settings menu: F1, or Back+Start on the pad (ReXNative's HUD). Its changes are
 # saved here.
 
 # Textures: 16x anisotropic filtering (the terrain is seen at grazing angles). The native

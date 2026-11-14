@@ -32,7 +32,7 @@
 #include <rex/system/xmodule.h>
 
 #if defined(FROMDUST_NATIVE_RENDERER)
-#include "fromdust_settings.h"
+#include "hud/hud.h"  // ReXNative's settings HUD
 #endif
 
 #include <immintrin.h>
@@ -418,8 +418,8 @@ REX_HOOK_RAW(sub_82512348) {
   Pad pad;
   std::memcpy(pad.bytes, base + state + 4, sizeof(pad.bytes));
 #if defined(FROMDUST_NATIVE_RENDERER)
-  // The settings menu's chord, and a neutral pad while it is up.
-  fromdust::settings::FilterPad(user, pad.bytes);
+  // The settings HUD's chord (ReXNative), and a neutral pad while it is up.
+  rexnative::hud::FilterPad(user, pad.bytes);
 #endif
   if (InputMayChange()) {
     held[user] = pad;
