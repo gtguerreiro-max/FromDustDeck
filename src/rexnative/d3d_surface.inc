@@ -13,40 +13,41 @@ D3D_FN(820D11A8, "SetRS_PA_SU_SC_MODE_CNTL_826C36D0", kState)  // exact high
 D3D_FN(820D11C8, "GetRS_PA_SU_SC_MODE_CNTL_826C36F0", kGet)  // exact high
 D3D_FN(820D11D8, "SetRS_RB_COLORCONTROL", kState)  // exact high
 D3D_FN(820D1200, "GetRS_RB_COLORCONTROL", kGet)  // exact high
-D3D_FN(820D1210, "SetRS_RB_BLENDCONTROL0_RB_BLENDCONTROL1", kState)  // neighbour high pgr4
-D3D_FN(820D1290, "GetField_11844", kGet)  // neighbour high pgr4
-D3D_FN(820D12A0, "SetRS_RB_BLENDCONTROL0_RB_BLENDCONTROL1_826C37C8", kState)  // neighbour high pgr4
-D3D_FN(820D1320, "GetField_11840", kGet)  // neighbour high pgr4
-D3D_FN(820D1330, "SetRS_RB_BLENDCONTROL0_RB_BLENDCONTROL1_826C3858", kState)  // neighbour high pgr4
-D3D_FN(820D13B0, "GetField_11840_826C38D8", kGet)  // neighbour high pgr4
-D3D_FN(820D13C0, "SetRS_RB_BLENDCONTROL0_RB_BLENDCONTROL1_826C38E8", kState)  // neighbour high pgr4
-D3D_FN(820D1440, "GetField_11840_826C3968", kGet)  // neighbour high pgr4
-D3D_FN(820D1450, "SetRS_RB_BLENDCONTROL0_RB_BLENDCONTROL1_826C3978", kState)  // neighbour high pgr4
-D3D_FN(820D14B0, "GetField_11840_826C39D8", kGet)  // neighbour high pgr4
-D3D_FN(820D14C0, "SetRS_RB_BLENDCONTROL0_RB_BLENDCONTROL1_826C39E8", kState)  // neighbour high pgr4
-D3D_FN(820D1520, "GetField_11840_826C3A48", kGet)  // region high pgr4
-D3D_FN(820D1530, "SetRS_RB_BLENDCONTROL0_RB_BLENDCONTROL1_826C3A58", kState)  // neighbour high pgr4
-D3D_FN(820D1590, "GetField_11840_826C3AB8", kGet)  // region high pgr4
-D3D_FN(820D15A0, "SetRS_RB_BLENDCONTROL0_RB_BLENDCONTROL1_826C3AC8", kState)  // neighbour high pgr4
+D3D_FN(820D1210, "SetRS_RB_BLENDCONTROL0_RB_BLENDCONTROL1", kState)  // exact high
+D3D_FN(820D1290, "GetField_11844", kGet)  // exact high
+D3D_FN(820D12A0, "SetRS_RB_BLENDCONTROL0_RB_BLENDCONTROL1_826C37C8", kState)  // exact high
+D3D_FN(820D1320, "GetField_11840", kGet)  // exact high
+D3D_FN(820D1330, "SetRS_RB_BLENDCONTROL0_RB_BLENDCONTROL1_826C3858", kState)  // exact high
+D3D_FN(820D13B0, "GetField_11840_826C38D8", kGet)  // exact high
+D3D_FN(820D13C0, "SetRS_RB_BLENDCONTROL0_RB_BLENDCONTROL1_826C38E8", kState)  // exact high
+D3D_FN(820D1440, "GetField_11840_826C3968", kGet)  // exact high
+D3D_FN(820D1450, "SetRS_RB_BLENDCONTROL0_RB_BLENDCONTROL1_826C3978", kState)  // exact high
+D3D_FN(820D14B0, "GetField_11840_826C39D8", kGet)  // exact high
+D3D_FN(820D14C0, "SetRS_RB_BLENDCONTROL0_RB_BLENDCONTROL1_826C39E8", kState)  // exact high
+D3D_FN(820D1520, "GetField_11840_826C3A48", kGet)  // exact high
+D3D_FN(820D1530, "SetRS_RB_BLENDCONTROL0_RB_BLENDCONTROL1_826C3A58", kState)  // exact high
+D3D_FN(820D1590, "GetField_11840_826C3AB8", kGet)  // exact high
+D3D_FN(820D15A0, "SetRS_RB_BLENDCONTROL0_RB_BLENDCONTROL1_826C3AC8", kState)  // exact high
 D3D_FN(820D1638, "SetRS_RB_ALPHA_REF", kState)  // neighbour high
 D3D_FN(820D1670, "fn_826C3B98", kOther)  // neighbour high
 D3D_FN(820D1698, "SetRS_RB_COLORCONTROL_826C3BC8", kState)  // exact high
 D3D_FN(820D16B8, "GetRS_RB_COLORCONTROL_826C3BE8", kGet)  // exact high
-D3D_FN(820D18A0, "SetRS_RB_DEPTHCONTROL", kState)  // neighbour medium pgr4
-D3D_FN(820D18D8, "GetField_11868", kGet)  // neighbour high pgr4
+D3D_FN(820D18A0, "SetRS_RB_DEPTHCONTROL", kState)  // exact high
+D3D_FN(820D18D8, "GetField_11868", kGet)  // exact high
 D3D_FN(820D18E0, "SetRS_RB_DEPTHCONTROL_826C3E30", kState)  // exact high
 D3D_FN(820D1900, "GetRS_RB_DEPTHCONTROL", kGet)  // exact high
 D3D_FN(820D1910, "SetRS_RB_DEPTHCONTROL_826C3E60", kState)  // exact high
 D3D_FN(820D1938, "GetRS_RB_DEPTHCONTROL_826C3E88", kGet)  // exact high
 D3D_FN(820D1C20, "SetRS_COHER_DEST_BASE_7_PA_CL_CLIP_CNTL", kState)  // exact high
-D3D_FN(820D1C80, "fn_826C41C8", kOther)  // neighbour medium pgr4
-D3D_FN(820D1D48, "SetRS_PA_SU_SC_MODE_CNTL_PA_SU_POLY_OFFSET_FRONT_OFFSET", kState)  // neighbour medium pgr4
+D3D_FN(820D1C80, "fn_826C41C8", kOther)  // neighbour high
+D3D_FN(820D1D48, "SetRS_PA_SU_SC_MODE_CNTL_PA_SU_POLY_OFFSET_FRONT_OFFSET", kState)  // masked high
 D3D_FN(820D1DE0, "fn_826C4328", kOther)  // exact high
 D3D_FN(820D1DF0, "SetRS_PA_SU_SC_MODE_CNTL_826C4338", kState)  // exact high
 D3D_FN(820D1E10, "GetRS_PA_SU_SC_MODE_CNTL_826C4358", kGet)  // exact high
-D3D_FN(820D1E40, "SetRS_RB_COLOR_MASK", kState)  // neighbour medium pgr4
+D3D_FN(820D1E40, "SetRS_RB_COLOR_MASK", kState)  // exact high
+D3D_FN(820D1F40, "SetField_11876", kState)  // exact high
 D3D_FN(820D23A8, "SetRS_PA_CL_CLIP_CNTL_PA_CL_VTE_CNTL", kState)  // exact high
-D3D_FN(820D23F8, "fn_826C4958", kOther)  // neighbour medium pgr4
+D3D_FN(820D23F8, "fn_826C4958", kOther)  // exact high
 D3D_FN(820D2700, "SetRS_PA_SU_VTX_CNTL", kState)  // exact high
 D3D_FN(820D2728, "GetRS_PA_SU_VTX_CNTL", kGet)  // exact high
 D3D_FN(820D2738, "SetRS_PA_SU_SC_MODE_CNTL_826C4CF8", kState)  // exact high
@@ -54,10 +55,10 @@ D3D_FN(820D2768, "SetRS_VGT_MULTI_PRIM_IB_RESET_INDX", kState)  // exact high
 D3D_FN(820D2790, "SetRS_RB_COLORCONTROL_826C4D50", kState)  // exact high
 D3D_FN(820D27C0, "SetRS_RB_COLORCONTROL_826C4D80", kState)  // exact high
 D3D_FN(820D28A0, "SetField_11844", kState)  // exact high
-D3D_FN(820D29E8, "SetField_13580", kState)  // callgraph high pgr4
+D3D_FN(820D29E8, "SetField_13580", kState)  // exact high
 D3D_FN(820D29F8, "SetField_11844_826C4FC8", kState)  // exact high
 D3D_FN(820D2AE0, "fn_826C50A8", kOther)  // exact high
-D3D_FN(820D2B18, "fn_826C50E0", kOther)  // neighbour medium pgr4
+D3D_FN(820D2B18, "fn_826C50E0", kOther)  // exact high
 D3D_FN(820D2C88, "fn_826C5238", kOther)  // exact high
 D3D_FN(820D2DA0, "fn_826C5348", kOther)  // exact high
 D3D_FN(820D2E60, "fn_826C53F8", kOther)  // masked high
@@ -69,8 +70,7 @@ D3D_FN(820D3440, "fn_826C59D8", kOther)  // masked high
 D3D_FN(820D3538, "fn_826C5AD8", kOther)  // exact high
 D3D_FN(820D3588, "SetStreamSource", kStream)  // masked high
 D3D_FN(820D36A8, "SetIndices", kStream)  // masked high
-D3D_FN(820D3738, "GetRenderTarget", kSurface)  // fuzzy medium
-D3D_FN(820D3780, "GetVertexDeclaration", kShader)  // fuzzy high pgr4
+D3D_FN(820D3738, "GetVertexDeclaration", kShader)  // fuzzy medium
 D3D_FN(820D37C0, "GetDepthStencilSurface", kSurface)  // neighbour high pgr4
 D3D_FN(820D39A0, "fn_826C5FB8", kOther)  // exact high
 D3D_FN(820D3DD0, "SetViewport", kState)  // callgraph high
@@ -82,7 +82,7 @@ D3D_FN(820D46F0, "fn_826C6BC0", kOther)  // exact high
 D3D_FN(820D4810, "fn_826C6CE0", kOther)  // masked high
 D3D_FN(820D4CB0, "fn_826C7170", kOther)  // masked high
 D3D_FN(820D53D8, "fn_826C7890", kOther)  // callgraph high
-D3D_FN(820D5AD8, "fn_826C7F50", kOther)  // callgraph high pgr4
+D3D_FN(820D5AD8, "fn_826C7F50", kOther)  // callgraph high
 D3D_FN(820D5DD0, "fn_826C8260", kOther)  // masked high
 D3D_FN(820D6040, "GetField_44", kGet)  // exact high
 D3D_FN(820D60A0, "fn_826C89F0", kOther)  // neighbour high pgr4
@@ -90,25 +90,25 @@ D3D_FN(820D60A8, "fn_826C89F8", kOther)  // masked high
 D3D_FN(820D61C8, "fn_826C8B18", kOther)  // neighbour high
 D3D_FN(820D6300, "fn_826C8C40", kOther)  // masked high
 D3D_FN(820D6398, "fn_826C8CF8", kOther)  // masked high
-D3D_FN(820D63E0, "SetTexture", kTexture)  // callgraph high pgr4
+D3D_FN(820D63E0, "SetTexture", kTexture)  // masked high
 D3D_FN(820D65A8, "RestoreSegment13392", kPush)  // neighbour medium pgr4
 D3D_FN(820D70D8, "StartSegment", kPush)  // callgraph high
 D3D_FN(820D7C00, "SwitchSegment", kPush)  // callgraph high
 D3D_FN(820D7D88, "MakeSpace", kPush)  // callgraph high
 D3D_FN(820D7E90, "fn_826CE9C0", kOther)  // masked high pgr4
 D3D_FN(820D7EC8, "fn_826CE9F8", kOther)  // masked high
-D3D_FN(820D8038, "InsertFence", kPush)  // neighbour high pgr4
-D3D_FN(820DA538, "SetVertexShaderConstantF", kConst)  // neighbour medium pgr4
+D3D_FN(820D8038, "InsertFence", kPush)  // callgraph high
+D3D_FN(820DA538, "SetVertexShaderConstantF", kConst)  // exact high
 D3D_FN(820DA7A8, "fn_826C9C68", kOther)  // fuzzy medium pgr4
 D3D_FN(820DA800, "fn_826C9DA8", kOther)  // fuzzy medium pgr4
 D3D_FN(820DA850, "SetField_0", kState)  // exact high
-D3D_FN(820DA888, "SetVertexShader", kShader)  // callgraph high pgr4
-D3D_FN(820DAA48, "SetPixelShader", kShader)  // callgraph high pgr4
+D3D_FN(820DA888, "SetVertexShader", kShader)  // masked high
+D3D_FN(820DAA48, "SetPixelShader", kShader)  // masked high
 D3D_FN(820DAC18, "SetVertexDeclaration", kShader)  // exact high
 D3D_FN(820DAD20, "fn_826CA490", kOther)  // masked high
 D3D_FN(820DADA0, "fn_826CA598", kOther)  // callgraph high
 D3D_FN(820DAFB8, "fn_826CA6D8", kOther)  // fuzzy medium pgr4
-D3D_FN(820DAFF0, "fn_826CA710", kOther)  // fuzzy medium pgr4
+D3D_FN(820DAFF0, "fn_826CA710", kOther)  // masked high
 D3D_FN(820DB0E0, "fn_826CA820", kOther)  // fuzzy medium pgr4
 D3D_FN(820DB120, "fn_826CA038", kOther)  // masked high
 D3D_FN(820DB218, "fn_826CA860", kOther)  // masked high
@@ -131,14 +131,15 @@ D3D_FN(820E9558, "DrawIndx2Split", kDraw)  // callees high
 D3D_FN(820EC4A0, "fn_826D1AC8", kOther)  // callgraph high
 D3D_FN(820EC610, "fn_826D1C38", kOther)  // callees medium pgr4
 D3D_FN(820EC980, "fn_826D20D0", kOther)  // callees medium pgr4
+D3D_FN(820ED620, "fn_826D6468", kOther)  // callees medium
 D3D_FN(820EE9D0, "Resolve", kResolve)  // public wrapper high hook
 D3D_FN(820EEAD8, "DrawIndx2Inline", kDraw)  // masked high
 D3D_FN(820EFC18, "ClearF", kClear)  // masked high
 D3D_FN(820EFD40, "Clear", kClear)  // masked high
-D3D_FN(820F6908, "fn_826CEA70", kOther)  // fuzzy medium pgr4
+D3D_FN(820F6908, "fn_826CEA70", kOther)  // region high
 D3D_FN(8250D470, "RestorePush", kPush)  // exact high
 D3D_FN(8250D480, "BeginVertices", kDraw)  // masked high
 D3D_FN(8250D940, "DrawVerticesUP", kDraw)  // masked high
 D3D_FN(8250D988, "DrawVertices", kDraw)  // fuzzy high
 D3D_FN(8250DDA0, "DrawIndexedVertices", kDraw)  // fuzzy high
-D3D_FN(825DD078, "fn_826C8858", kOther)  // masked high pgr4
+D3D_FN(825DD078, "fn_826C8858", kOther)  // masked high

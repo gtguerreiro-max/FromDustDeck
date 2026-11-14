@@ -110,6 +110,15 @@ inline constexpr uint32_t kDevFenceDone = 11024;  // same
 inline constexpr uint32_t kResolveDefaultClearColor = 0x82007F50;
 inline constexpr bool kResolveDefaultClearIsVector = true;
 inline constexpr uint8_t kResolveArgRegs[8] = {3, 4, 5, 6, 7, 8, 9, 10};
+// The same for the hooked draw functions (LTCG builds drop and move their arguments).
+inline constexpr uint8_t kArgsDrawIndexedVertices[8] = {3, 4, 5, 6, 7, 8, 9, 10};
+inline constexpr bool kRemapDrawIndexedVertices = false;
+inline constexpr uint8_t kArgsDrawVertices[8] = {3, 4, 5, 6, 7, 8, 9, 10};
+inline constexpr bool kRemapDrawVertices = false;
+inline constexpr uint8_t kArgsDrawVerticesUP[8] = {3, 4, 5, 6, 7, 8, 9, 10};
+inline constexpr bool kRemapDrawVerticesUP = false;
+inline constexpr uint8_t kArgsBeginVertices[8] = {3, 4, 5, 6, 7, 8, 9, 10};
+inline constexpr bool kRemapBeginVertices = false;
 inline constexpr bool kResolveRemapArgs = false;
 
 // Devices: follow only the device the game presents with (Iron Brigade drives a second
@@ -118,15 +127,21 @@ inline constexpr bool kResolveRemapArgs = false;
 inline constexpr bool kFollowSwapDeviceOnly = false;
 inline constexpr bool kConfigureAtFirstDevice = false;
 
-// The scene surface the upscaler (DLSS / DLAA) and DLSS 5 work on: measured at run time
-// (python -m rexnative scene <resolve dump>), not found in the code.
+// The scene surface the upscaler (DLSS / DLAA), the MSAA option and DLSS 5 work on: not in
+// the code. REXNATIVE_SCENE_AUTO 1: the renderer learns it from the frames' resolves
+// (scene.h); 0: these constants, measured (python -m rexnative scene <resolve dump>).
+// --rexnative_scene_auto=0/1 overrides it at run time.
 inline constexpr uint32_t kSceneSurfaceMask = 0x33FFF;
 inline constexpr uint32_t kSceneSurface = 0x10500;
 inline constexpr uint32_t kSceneWidth = 1280;
 inline constexpr uint32_t kScenePitch = 1280;
 inline constexpr uint32_t kGameFrameHeight = 720;
+#define REXNATIVE_SCENE_AUTO 0
 
-// Defaults of the game's cvars.
+// Defaults of the game's options (rexnative, rexnative_render_height,
+// rexnative_occlusion, rexnative_display_aspect).
+// kDefaultEnabled: ReXNative draws and presents the game unless --rexnative=false.
+inline constexpr bool kDefaultEnabled = true;
 inline constexpr int32_t kDefaultRenderHeight = 720;
 inline constexpr bool kDefaultOcclusion = false;
 inline constexpr double kDefaultDisplayAspect = 16.0 / 9.0;

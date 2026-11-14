@@ -106,7 +106,7 @@ its comments.
 | Occlusion queries | Off (default) or On | next start |
 
 Every setting is also a line in `fromdust.toml`, and a Steam launch option such as
-`%command% --pgr4_native_fsr=false` overrides one for a session.
+`%command% --rexnative_fsr=false` overrides one for a session.
 
 ## Credits and licences
 

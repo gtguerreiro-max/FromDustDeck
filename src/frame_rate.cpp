@@ -96,7 +96,7 @@ clock_type::time_point g_last{};
 std::atomic<int> g_even_rate{0};
 std::atomic<bool> g_settling{true};  // the world steps on every update (see the hook)
 std::atomic<double> g_step_share{1.0};  // world steps per frame, last frame (FromDustWorldStepShare)
-std::atomic<bool> g_last_stepped{true};  // the last update stepped the world (FromDustWorldStepped)
+std::atomic<bool> g_last_stepped{true};  // the last update stepped the world (RexNativeGameWorldStepped)
 
 double Rate() { return std::max(REXCVAR_GET(fromdust_world_hz), 0.0); }
 
@@ -437,4 +437,4 @@ REX_HOOK_RAW(sub_82512348) {
 // The share of a world step the last frame stood for (water_flow.cpp).
 double FromDustWorldStepShare() { return g_step_share.load(); }
 // Whether the last update stepped the world (the native renderer's camera trace).
-bool FromDustWorldStepped() { return g_last_stepped.load(); }
+bool RexNativeGameWorldStepped() { return g_last_stepped.load(); }

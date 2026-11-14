@@ -25,7 +25,7 @@ D3D library's draw, clear, resolve, query and Swap calls in the recompiled code 
 with host render targets, without emulating the EDRAM or the GPU's command stream, and each
 draw once instead of once per predicated tiling pass. The Xenos plugin stays in the binary for
 the GPU's fences and interrupts (`--gpu_skip_draws`) and as the comparison renderer
-(`--pgr4_native=true` draws both and writes both images with their PSNR). Measured on the Deck
+(`--rexnative_beside_xenos=true` draws both and writes both images with their PSNR). Measured on the Deck
 in the first level, same scene as the Xenos/Vulkan path (33-49 FPS with the GPU at 100 % and
 1591 MHz): 60 FPS with the GPU 68 % busy at 839 MHz, 2.6 W of GFX power, every world step on
 screen for 2 frames.
@@ -49,7 +49,7 @@ vector at `0x82007F50` (it read PGR4's float at `0x82258A0C`). The old `src/nati
 git history. Checked on a PC on 2026-11-14 (menus, map, a level, the settings menu); not yet
 on the Deck with this build.
 
-What From Dust needed, now in ReXNative (the options keep PGR4Native's `pgr4_native_*` names):
+What From Dust needed, now in ReXNative (the options keep PGR4Native's `rexnative_*` names):
 - **Addresses.** Both games link the same XDK D3D library at other addresses.
   `tools/match_d3d.py` paired PGR4's functions with From Dust's by instruction listing (exact,
   then similarity, with the next best far behind), and `tools/retarget_pgr4.py` rewrote the
@@ -69,14 +69,14 @@ What From Dust needed, now in ReXNative (the options keep PGR4Native's `pgr4_nat
   objects it tests in a frame and reads each result in that frame. The host's counts come a
   frame or more later, so a query got another object's count, and a 0 hid a visible object for
   a frame (the background showed through: the "blue" flashes on the totem and the huts, 9 frames
-  in 735). Every query now reports visible (`--pgr4_native_occlusion=false`, the default); the
+  in 735). Every query now reports visible (`--rexnative_occlusion=false`, the default); the
   draws per frame are the same (1460 against 1464).
-- `src/native_glue.cpp` and `FromDustWorldStepped` (`src/frame_rate.cpp`): the game-side
+- `src/native_glue.cpp` and `RexNativeGameWorldStepped` (`src/frame_rate.cpp`): the game-side
   functions the renderer calls (`rexnative_add(... NO_DEFAULT_GLUE)`).
 - **Picture.** The front buffer is the game's 1024x600, which the console's scaler shows at
-  16:9: the present fits it at 16:9 (`--pgr4_native_display_aspect`, 1280x720 on the Deck's
-  1280x800) and scales it up with AMD FSR 1 (`--pgr4_native_fsr`, EASU then RCAS,
-  `--pgr4_native_fsr_sharpness` in stops; ReXNative's `renderer/src/native/fsr.cpp`). FSR runs
+  16:9: the present fits it at 16:9 (`--rexnative_display_aspect`, 1280x720 on the Deck's
+  1280x800) and scales it up with AMD FSR 1 (`--rexnative_fsr`, EASU then RCAS,
+  `--rexnative_fsr_sharpness` in stops; ReXNative's `renderer/src/native/fsr.cpp`). FSR runs
   the pixel shaders
   ReXGlue's D3D12 presenter ships (Xenia's `guest_output_ffx_fsr_*`, prebuilt DXBC), on the
   image after the gamma ramp, as that presenter does. On the Deck it costs 6 points of GPU
@@ -99,7 +99,7 @@ What From Dust needed, now in ReXNative (the options keep PGR4Native's `pgr4_nat
   corner says how to open it (`--rexnative_hud_hint=false` hides it).
 
 `tools/compare_resolves.py` (from PGR4Native, with the 16-bit formats) compares the renderer's
-resolves with the Xenos plugin's (`--pgr4_native_resolve_dump`). The Deck runs the Windows build
+resolves with the Xenos plugin's (`--rexnative_resolve_dump`). The Deck runs the Windows build
 from `~/Games/FromDustNativeD3D` with `deck/play-native-d3d12.sh` (GE-Proton) and
 `deck/fromdust-native-d3d12.toml`.
 
@@ -124,7 +124,7 @@ from `~/Games/FromDustNativeD3D` with `deck/play-native-d3d12.sh` (GE-Proton) an
   ground back, so the cursor and the camera went up and down at 30 Hz (61.15 against 61.99). The
   height the world set is put back on those frames; measured after: the same height on both.
   Found with a hardware write watchpoint on the camera's matrix, then the cursor, from the
-  native renderer's camera trace (`--fromdust_trace_camera`).
+  native renderer's camera trace (`--rexnative_trace_camera`).
 - **Water flow** (`src/water_flow.cpp`): the advection pass's per-draw step (`c38.y`, plus
   `c36.x` on the title screen) is scaled by the frame's share of a world step. It uses a
   per-draw hook in the SDK, and the pass is found by the constants it reads. In play `c36.x`

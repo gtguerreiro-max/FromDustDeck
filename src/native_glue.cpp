@@ -7,11 +7,11 @@
 
 // The 60 FPS option of PGR4's settings (its guest presentation interval ONE). From Dust has none:
 // its frame rate comes from frame_rate.cpp's world stepping and the guest vblank.
-bool Pgr4Enable60Fps() { return false; }
+bool RexNativeGame60Fps() { return false; }
 
 // The time of PGR4's last car physics step, for DLSS 5's scene timing (neural.cpp). From Dust has
 // no such step: 0 makes the renderer use the frame's own time.
-uint64_t Pgr4LastCarStepNs() { return 0; }
+uint64_t RexNativeGameStepNs() { return 0; }
 
 // PGR4Native's SDK patch 0025 (the guest's pad reads per frame, for the renderer's frame CSV) is
 // not applied here: no pad summary.

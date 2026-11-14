@@ -1,6 +1,19 @@
 {
-  "_comment": "From Dust's choices over the generated layer (python -m rexnative adapt). RestoreSegment: PGR4's second restore is inlined here, the same function as RestoreSegment13392 (the hand-made port's choice). Scene and defaults: the values the port ran with before ReXNative (the scene is PGR4's: the upscaler is off; From Dust's measured scene is 1024x600, pitch 1040, 2x MSAA).",
-  "functions": {"RestoreSegment": "820D65A8"},
-  "scene": {"kSceneSurfaceMask": 212991, "kSceneSurface": 66816, "width": 1280, "scaled_pitch": 1280, "height": 720},
-  "defaults": {"pgr4_render_height": 720, "pgr4_native_occlusion": false, "pgr4_native_display_aspect": "16.0 / 9.0"}
+ "_comment": "From Dust's choices over the generated layer (python -m rexnative adapt). RestoreSegment: PGR4's second restore is inlined here, the same function as RestoreSegment13392 (the hand-made port's choice). Scene and defaults: the values the port ran with before ReXNative (the scene is PGR4's: the upscaler is off; From Dust's measured scene is 1024x600, pitch 1040, 2x MSAA).",
+ "functions": {
+  "RestoreSegment": "820D65A8"
+ },
+ "scene": {
+  "kSceneSurfaceMask": 212991,
+  "kSceneSurface": 66816,
+  "width": 1280,
+  "scaled_pitch": 1280,
+  "height": 720
+ },
+ "defaults": {
+  "enabled": true,
+  "render_height": 720,
+  "occlusion": false,
+  "display_aspect": "16.0 / 9.0"
+ }
 }
