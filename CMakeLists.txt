@@ -59,7 +59,10 @@ if(WIN32 AND FROMDUST_NATIVE)
         DLSS_NR         "${FROMDUST_DLSS_NR}"
         NO_DEFAULT_GLUE)
     target_sources(fromdust PRIVATE src/native_glue.cpp)
-    target_compile_definitions(fromdust PRIVATE FROMDUST_NATIVE_RENDERER=1)
+    target_compile_definitions(fromdust PRIVATE FROMDUST_NATIVE_RENDERER=1
+        # frame_rate.cpp hooks XInputGetState itself (and calls the HUD's FilterPad): ReXNative's
+        # own hook of it stays out.
+        REXNATIVE_GAME_HOOKS_XINPUT=1)
 endif()
 
 # Link maps for crash.txt's module+offset frames (src/crash_report.cpp).
