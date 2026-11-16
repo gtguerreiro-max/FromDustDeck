@@ -24,12 +24,12 @@
 //   alternated every frame.
 
 #include <rex/cvar.h>
-#include <rex/hook.h>
+#include <rex/kernel/module.h>
+#include <rex/kernel/title_runtime.h>
 #include <rex/logging.h>
 #include <rex/ppc/context.h>
-#include <rex/ppc/func.h>
-#include <rex/system/kernel_state.h>
-#include <rex/system/xmodule.h>
+#include <rex/ppc/hook.h>
+#include <rex/ppc/recompiled_code.h>
 
 #if defined(FROMDUST_NATIVE_RENDERER)
 #include "hud/hud.h"  // ReXNative's settings HUD
@@ -274,9 +274,11 @@ REX_HOOK_RAW(sub_825803A8) {
   // in a loop at 0.5 FPS. So settling starts only once they are loaded.
   static bool started = false;
   if (!started) {
-    auto* kernel = REX_KERNEL_STATE();
-    started = kernel && kernel->GetModule(R"(game:\GalileoSimulatorWater_9_9.xex)", true) &&
-              kernel->GetModule(R"(game:\GalileoPathfind_9_9.xex)", true);
+    auto* runtime = REX_RUNTIME();
+    started =
+        runtime &&
+        runtime->GetModuleRegistry().GetModule(R"(game:\GalileoSimulatorWater_9_9.xex)", true) &&
+        runtime->GetModuleRegistry().GetModule(R"(game:\GalileoPathfind_9_9.xex)", true);
   }
   const auto now = clock_type::now();
   const uint32_t current = FindWorld(base, ctx.r3.u32);
@@ -315,7 +317,7 @@ REX_HOOK_RAW(sub_825803A8) {
     const uint32_t update = Load32(base, Load32(base, object) + 20);
     if (update == kWorldUpdate) continue;
     ctx.r3.u64 = object;
-    rex::runtime::ResolveIndirectFunction(update)(ctx, base);
+    rex::ppc::ResolveFunction(update)(ctx, base);
   }
   Store32(base, manager + 64, 0);
   ctx.r3.u64 = manager;

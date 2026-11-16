@@ -13,7 +13,7 @@
 // and, every 600 draws of the pass, the scale applied.
 
 #include <rex/cvar.h>
-#include <rex/graphics/draw_hook.h>
+#include <rex/xenos/draw_hook.h>
 #include <rex/logging.h>
 
 #include <algorithm>
@@ -119,4 +119,4 @@ bool Hook(uint64_t hash, const uint64_t* used, uint32_t* constants) {
 
 }  // namespace
 
-void InstallWaterFlowFix() { rex::graphics::SetPixelConstantHook(Hook); }
+void InstallWaterFlowFix() { rex::xenos::SetPixelConstantHook(Hook); }

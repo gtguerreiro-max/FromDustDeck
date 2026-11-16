@@ -110,7 +110,7 @@ def write_manifest():
         "",
         "[project]",
         'name = "fromdust"',
-        'sdk_version = "0.10.1"',
+        'sdk_version = "0.11.0"',
         'game_root = "game-data"',
         "",
     ]
@@ -227,6 +227,22 @@ def main():
         failed = re.search(r"Analysis failed for '([^']+)'", log)
         targets = [int(t, 16) for t in re.findall(r"^\s+(0x[0-9A-Fa-f]+) from 0x[0-9A-Fa-f]+:",
                                                     log, re.M)]
+        # ReXGlue v0.11 finds every copy of the millicode helpers (__savegprlr_N and the rest)
+        # and refuses a function hint at one: such hints go, with the ones around them (codegen
+        # stops at the first; a run is up to 64 entries of 4 or 8 bytes).
+        millicode = [int(a, 16) for a in re.findall(
+            r"function (0x[0-9A-Fa-f]+) is millicode, which no config entry may replace", log)]
+        if failed and millicode:
+            key = failed.group(1).lower()
+            mod = next(m for m in MODULES
+                       if m[3].lower() == key or m[4].replace(".", "_").lower() == key)
+            hints = load_hints(mod[3])
+            gone = [h for h in hints if any(abs(h - a) <= 0x200 for a in millicode)]
+            for h in gone:
+                del hints[h]
+            save_hints(mod[3], hints)
+            print(f"round {rnd}: {mod[3]}: {len(gone)} hints at millicode helpers removed")
+            continue
         if not failed or not targets:
             print(log[-3000:])
             print(f"round {rnd}: codegen failed with nothing to hint")

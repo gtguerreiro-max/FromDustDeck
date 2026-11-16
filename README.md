@@ -50,10 +50,11 @@ maintained; the Proton build is the one to use.
 
 - **From Dust for Xbox 360 (XBLA)**, extracted from its package so that the folder holds
   `Default.xex`, the `Galileo*.xex` modules and the game's data.
-- **A Windows 10/11 PC** to build it: Visual Studio 2022 Build Tools (clang-cl, lld, Windows
-  SDK), CMake 3.25+, Ninja, Python 3 and Git.
-- The [AMD FidelityFX SDK](https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK) 2.x
-  headers (the renderer was built with commit `60f4ea8`) and NVIDIA's DLSS SDK headers, which
+- **A Windows 10/11 PC** to build it: Visual Studio 2022 Build Tools (the C++ workload: Windows
+  SDK and MSVC libraries), LLVM 20 (clang++ and lld; `REXNATIVE_LLVM` names its `bin` folder,
+  or pass `-Llvm`), the Vulkan SDK, CMake 3.25+, Ninja, Python 3 and Git.
+- The [AMD FidelityFX SDK](https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK) v2.4.0
+  (commit `7539ae8`, ReXNative's `sdk/fidelityfx.lock`) and NVIDIA's DLSS SDK headers, which
   the renderer's sources include. Their paths are CMake cache variables
   (`FROMDUST_FIDELITYFX_SDK`, `FROMDUST_DLSS_SDK`, `FROMDUST_DLSS_NR`).
 - **A Steam Deck** with Proton 11 or GE-Proton 11.
@@ -67,10 +68,14 @@ cd FromDustDeck
 scripts\build.ps1 -CopyGame
 ```
 
-The first build fetches the ReXGlue SDK at the commit in `patches/rexglue.lock`, applies the
-patches in `patches/deck` and `patches/fromdust`, builds it, generates the game's code and
-builds the game into `build\FromDust`. After a change to the port itself,
-`scripts\build.ps1 -Stage game,install` is enough.
+The port runs on ReXGlue v0.11. The first build makes the SDK with ReXNative's
+`third_party\ReXNative\scripts\build-sdk.ps1` (ReXGlue v0.11.0 with ReXNative's
+`sdk/patches/v0.11`, which carry this port's SDK changes: the per-draw pixel constant hook for
+the water's flow, integer texture fetches, the module function table base, `vmaxuw`),
+generates the game's code (the game and its six modules) and builds the game into
+`build\FromDust`. An SDK built already is reused with `-SdkInstall <its sdk-install> -SdkSrc
+<its source tree>`. After a change to the port itself, `scripts\build.ps1 -Stage game,install`
+is enough. PGR4Native's Steam Deck pacing patches are not ported to v0.11 yet.
 
 ## Install on the Steam Deck
 
@@ -116,7 +121,8 @@ Every setting is also a line in `fromdust.toml`, and a Steam launch option such 
   settings menu (MIT), built from the `third_party/ReXNative` submodule.
 - [PGR4Native](https://github.com/shaunsingh/pgr4-native): where that renderer comes from, and
   the Steam Deck patches this port adapts.
-- AMD FidelityFX FSR 1 (MIT), through Xenia's presenter shaders; Dear ImGui (MIT).
+- AMD FidelityFX FSR 1 (MIT), through Xenia's presenter shaders kept in ReXNative; Dear ImGui
+  (MIT).
 - From Dust is © Ubisoft. This project is not affiliated with or endorsed by Ubisoft or
   Microsoft.
 
