@@ -110,6 +110,9 @@ def write(path: str, root: dict) -> None:
         if open(path, "rb").read() == data:
             return
         shutil.copyfile(path, f"{path}.bak-{time.strftime('%Y%m%d-%H%M%S')}")
+        # The three newest copies stay (one a change otherwise, for good).
+        for old in sorted(glob.glob(glob.escape(path) + ".bak-*"))[:-3]:
+            os.remove(old)
     with open(path + ".tmp", "wb") as f:
         f.write(data)
     os.replace(path + ".tmp", path)
@@ -154,6 +157,8 @@ def main() -> None:
                 del shortcuts[key]
                 removed = True
         if removed:
+            # Numbered again from 0, as Steam writes them: a later add takes the next number.
+            root["shortcuts"] = {str(i): e for i, e in enumerate(shortcuts.values())}
             write(path, root)
         return
     exe = f'"{args.exe}"'
@@ -165,7 +170,8 @@ def main() -> None:
                  "IsHidden": 0, "AllowDesktopConfig": 1, "AllowOverlay": 1, "OpenVR": 0,
                  "Devkit": 0, "DevkitGameID": "", "DevkitOverrideAppID": 0, "LastPlayTime": 0,
                  "FlatpakAppID": "", "sortas": "", "tags": {}}
-        shortcuts[str(len(shortcuts))] = entry
+        # After the highest number: a file with a gap in its keys keeps every entry.
+        shortcuts[str(max((int(k) for k in shortcuts if k.isdigit()), default=-1) + 1)] = entry
     # Steam writes the key as "exe"; an entry from an older version of this script may have
     # "Exe", which Steam doesn't read: keep one key, Steam's.
     entry.pop("Exe", None)

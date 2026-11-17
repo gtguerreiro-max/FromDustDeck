@@ -75,7 +75,9 @@ the water's flow, integer texture fetches, the module function table base, `vmax
 generates the game's code (the game and its six modules) and builds the game into
 `build\FromDust`. An SDK built already is reused with `-SdkInstall <its sdk-install> -SdkSrc
 <its source tree>`. After a change to the port itself, `scripts\build.ps1 -Stage game,install`
-is enough. PGR4Native's Steam Deck pacing patches are not ported to v0.11 yet.
+is enough. PGR4Native's Steam Deck performance patches are in that set (shader constant writes,
+guest physical memory, the XMA decoder, shared memory requests); for its frame pacing ones (the
+command processor's ring wake and waits, the vblank timer) ReXGlue v0.11 has its own.
 
 ## Install on the Steam Deck
 

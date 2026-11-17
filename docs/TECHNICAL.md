@@ -10,12 +10,13 @@ goes through vkd3d-proton to the Deck's RADV Vulkan driver. This is the setup th
 [PGR4Native](https://github.com/shaunsingh/pgr4-native) measured on a Deck. The SDK is ReXGlue
 v0.11.0 with ReXNative's patches (`third_party/ReXNative/sdk`: `rexglue.lock`,
 `patches/v0.11/`): PGR4Native's generic ones for correctness (XMA audio, RTV colour clamping,
-codegen and kernel fixes) and the ones its native renderer needs from the SDK (`skip_draws`,
-`occlusion_query_external`, motion vectors, `present_external`), and this port's own SDK changes
-(`0013`). Until 2026-11-16 the port ran on ReXGlue `development` at `bd833a2` with
-`patches/deck/` (37 of PGR4Native's patches, the Deck pacing and wake-up ones among them) and
-`patches/fromdust/`; those pacing patches are not ported to v0.11 yet (git history keeps the
-v0.10 set).
+codegen and kernel fixes) and its Steam Deck performance ones (shader constant writes, guest
+physical memory, the XMA decoder, shared memory requests), the ones its native renderer needs
+from the SDK (`skip_draws`, `occlusion_query_external`, motion vectors, `present_external`), and
+this port's own SDK changes (`0013`). Until 2026-11-16 the port ran on ReXGlue `development` at
+`bd833a2` with `patches/deck/` (37 of PGR4Native's patches, the Deck pacing and wake-up ones
+among them) and `patches/fromdust/`; for those pacing patches v0.11 has equivalents of its own
+(git history keeps the v0.10 set).
 
 ## Native renderer (D3D12, under Proton): the Deck's 60 FPS
 
