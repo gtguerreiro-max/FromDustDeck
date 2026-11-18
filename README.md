@@ -117,6 +117,9 @@ Every setting is also a line in `fromdust.toml`, and a Steam launch option such 
 
 ## Credits and licences
 
+This port's own code is under the [MIT License](LICENSE); [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)
+lists what comes from other projects.
+
 - [ReXGlue SDK](https://github.com/rexglue/rexglue-sdk): the recompiler and runtime, built on
   [Xenia](https://github.com/xenia-project/xenia) (BSD 3-Clause).
 - [ReXNative](https://github.com/gtguerreiro-max/ReXNative): the native D3D12 renderer and its
